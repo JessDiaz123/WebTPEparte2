@@ -35,10 +35,10 @@ class MovieModel
     function getReviewsForOneMovie($id)
     {
         $query = $this->db->prepare("
-        SELECT r.review, r.id_review, p.movieName, p.director, g.genreName FROM resenias as r
-    INNER join peliculas as p on r.fk_movie_id = p.id_movie
-    inner join genero as g on p.fk_genre_id = g.id_genre 
-    where p.id_movie = ? ");
+        SELECT r.review, r.user, r.id_review, p.movieName, p.director, g.genreName FROM resenias as r
+        INNER join peliculas as p on r.fk_movie_id = p.id_movie
+        inner join genero as g on p.fk_genre_id = g.id_genre 
+        where p.id_movie = ? ");
         $query->execute([$id]);
         $result = $query->fetchAll(PDO::FETCH_OBJ);
         return $result;
@@ -79,9 +79,9 @@ class MovieModel
         return $result;
     }
 
-    public function addReview($review, $id_movie) {
-        $query = $this->db->prepare('INSERT INTO resenias(review, fk_movie_id ) VALUES(?,?)');
-        $query->execute([$review, $id_movie]); 
+    public function addReview($id_movie, $review, $user ) {
+        $query = $this->db->prepare('INSERT INTO resenias(review, user,  fk_movie_id ) VALUES(?,?,?)');
+        $query->execute([$review, $user, $id_movie]); 
         return $this->db->lastInsertId();
     }
 

@@ -53,10 +53,13 @@ class MovieApiController
     function getReviewsForOneMovie($params = null)
     {
         $id =  $params[':ID'];
-        if ($id) {
-            $review = $this->model->getReviewsForOneMovie($id);
-            if ($review) {
-                $this->view->response($review);
+        if (is_Numeric($id)) {
+            
+            // $reviews = $this->model->getReviewsForOneMovie($id);
+
+            $reviews = $this->model->getReviewsForOneMovie($id);
+            if ($reviews) {
+                $this->view->response($reviews);
             } else {
                 $this->view->response("reviews not found", 404);
             }
@@ -108,11 +111,7 @@ class MovieApiController
                 }
             } 
             else {
-<<<<<<< HEAD
                 $this->view->response("enter a valid id for the review ", 400);
-=======
-                $this->view->response("ingrese un id  valido para la reseña ", 400);
->>>>>>> 99527026e1d27c45066046163634e8cd67876483
             }
     } 
     
@@ -135,7 +134,8 @@ class MovieApiController
         if ($movie) {
             $data = $this->getData(); // transformo el text a json 
             $review = $data->review;
-            $id = $this->model->addReview($review, $movie->id_movie);
+            $user = $data->user;
+            $id = $this->model->addReview($movie->id_movie , $review, $user );
             if ($id)
                 $this->view->response("the review was created successfully", 201);
             else
