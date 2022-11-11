@@ -25,10 +25,28 @@ class MovieApiController
 
     function getAll()
     {
-        $movies = $this->model->showAll($params = null);
-        $this->view->response($movies, 200);
+        if(isset($_GET['sort'])&&isset($_GET['order'])){
+            $this->getAllSorted($_GET['sort'],$_GET['order']);
+        }
+        else{
+            $movies = $this->model->showAll();
+            $this->view->response($movies, 200);
+        }
     }
 
+    function getAllSorted($column , $asc){
+        $columns = ["movieName","movieLength","director","genre"];
+        $order = ["asc","desc"];
+        if (in_array($column,$columns)&&in_array($asc,$order)){
+            $movies = $this->model->getAllSorted($column,$asc);
+            $this->view->response($movies, 200);
+        }
+        else{
+            $this->view->response("bad request", 400);
+        }
+
+    }
+    
 
     //por el router que tenemos, recibimos los parametros mediante un 
     // arreglo asociativo. (al que accedemos con $params['elParametro'])
@@ -90,7 +108,7 @@ class MovieApiController
                 }
             } 
             else {
-                $this->view->response("ingrese un id  valido para la reseña ", 404);
+                $this->view->response("enter a valid id for the review ", 400);
             }
     } 
     
@@ -114,11 +132,10 @@ class MovieApiController
             $data = $this->getData(); // transformo el text a json 
             $review = $data->review;
             $id = $this->model->addReview($review, $movie->id_movie);
-            $review = $this->model->getOneReview($id);
-            if ($review)
-                $this->view->response("la reseña fue creada con exito", 201);
+            if ($id)
+                $this->view->response("the review was created successfully", 201);
             else
-                $this->view->response(" La reseña no fue creada", 500);
+                $this->view->response("Review was not created", 500);
         }
     }
     function modifyReview($params = null){
@@ -127,10 +144,11 @@ class MovieApiController
         $newText = $data->review;
         $reviewModified = $this->model->modifyReview($review->id_review,$newText);
         if ($reviewModified)
-            $this->view->response("La reseña fue modificada con exito", 200);
+            $this->view->response("The review was modified successfully", 200);
         else
-            $this->view->response(" La reseña no fue modificada", 500);
+            $this->view->response(" The review was not modified", 500);
 }
+
 function removeReview ($params = null){
     $review = $this->verifyReview($params);
     if($review){
@@ -138,16 +156,10 @@ function removeReview ($params = null){
         if($result)
             $this->view->response("review id=$review->id_review was deleted successfully");
         else
-            $this->view->response(" La reseña no fue modificada", 500);
-        
+            $this->view->response("The review was not deleted", 500);   
     }
 }
 
-function getAllSorted($params=null){
-
-    $movies = $this->model->getAllSorted("movieName","ASC");
-    $this->view->response($movies, 200);
-}
 
 
 
