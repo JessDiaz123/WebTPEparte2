@@ -108,7 +108,11 @@ class MovieApiController
                 }
             } 
             else {
+<<<<<<< HEAD
                 $this->view->response("enter a valid id for the review ", 400);
+=======
+                $this->view->response("ingrese un id  valido para la reseña ", 400);
+>>>>>>> 99527026e1d27c45066046163634e8cd67876483
             }
     } 
     
