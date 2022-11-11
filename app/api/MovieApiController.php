@@ -25,10 +25,28 @@ class MovieApiController
 
     function getAll()
     {
-        $movies = $this->model->showAll($params = null);
-        $this->view->response($movies, 200);
+        if(isset($_GET['sort'])&&isset($_GET['order'])){
+            $this->getAllSorted($_GET['sort'],$_GET['order']);
+        }
+        else{
+            $movies = $this->model->showAll();
+            $this->view->response($movies, 200);
+        }
     }
 
+    function getAllSorted($column , $asc){
+        $columns = ["movieName","movieLength","director","genre"];
+        $order = ["asc","desc"];
+        if (in_array($column,$columns)&&in_array($asc,$order)){
+            $movies = $this->model->getAllSorted($column,$asc);
+            $this->view->response($movies, 200);
+        }
+        else{
+            $this->view->response("bad request", 400);
+        }
+
+    }
+    
 
     //por el router que tenemos, recibimos los parametros mediante un 
     // arreglo asociativo. (al que accedemos con $params['elParametro'])
@@ -90,7 +108,7 @@ class MovieApiController
                 }
             } 
             else {
-                $this->view->response("ingrese un id  valido para la reseña ", 404);
+                $this->view->response("ingrese un id  valido para la reseña ", 400);
             }
     } 
     
@@ -131,6 +149,7 @@ class MovieApiController
         else
             $this->view->response(" La reseña no fue modificada", 500);
 }
+
 function removeReview ($params = null){
     $review = $this->verifyReview($params);
     if($review){
@@ -143,11 +162,6 @@ function removeReview ($params = null){
     }
 }
 
-function getAllSorted($params=null){
-
-    $movies = $this->model->getAllSorted("movieName","ASC");
-    $this->view->response($movies, 200);
-}
 
 
 

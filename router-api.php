@@ -9,6 +9,8 @@ $router = new Router();
 // define la tabla de ruteo
 $router->addRoute('peliculas', 'GET', 'MovieApiController',
  'getAll'); // todas las peliculas
+
+
 $router->addRoute('peliculas/:ID', 'GET', 'MovieApiController',
  'getOne'); //una pelicula en particular
 $router->addRoute('peliculas/:ID/resenias', 'GET', 'MovieApiController', 
@@ -20,11 +22,10 @@ $router->addRoute('peliculas/:ID/resenias', 'POST', 'MovieApiController',
 $router->addRoute('peliculas/:ID/resenias/:IDRESEÑA', 'PUT', 'MovieApiController', 
 'modifyReview'); // Modificar una reseña
 $router->addRoute('peliculas/:ID/resenias/:IDRESEÑA', 'DELETE', 'MovieApiController',
- 'removeReview');
-$router->addRoute('aaa', 'GET', 'MovieApiController',
- 'getAllSorted');
+ 'removeReview'); // borrar una reseña
 
 $resource = $_GET["resource"];
+
 $method = $_SERVER['REQUEST_METHOD'];
 
 // rutea

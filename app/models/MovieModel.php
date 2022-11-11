@@ -114,8 +114,8 @@ class MovieModel
     function getAllSorted($column, $order){
         $query = $this->db->prepare("SELECT a.id_movie, a.movieName, a.movieImage,a.movieLength,a.director ,
         b.genreName AS genre
-        FROM peliculas a INNER JOIN genero b ON a.fk_genre_id = id_genre ORDER BY ? ?");
-        $query->execute ([$column, $order]);
+        FROM peliculas a INNER JOIN genero b ON a.fk_genre_id = id_genre ORDER BY $column $order");
+        $query->execute ();
         $results = $query->fetchAll(PDO::FETCH_OBJ);
         return $results;
     }
