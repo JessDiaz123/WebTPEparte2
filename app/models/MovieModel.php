@@ -25,7 +25,7 @@ class MovieModel
         $query->execute([$id]);
     }
     
-    function deleteOneReview($id)
+    function deleteReview($id)
     {
         $query = $this->db->prepare('DELETE FROM resenias WHERE id_review = ?');
         return $query->execute([$id]);
@@ -36,14 +36,13 @@ class MovieModel
     {
         $query = $this->db->prepare("
         SELECT r.review, r.user, r.id_review, p.movieName, p.director, g.genreName FROM resenias as r
-        INNER join peliculas as p on r.fk_movie_id = p.id_movie
-        inner join genero as g on p.fk_genre_id = g.id_genre 
+        INNER JOIN peliculas as p on r.fk_movie_id = p.id_movie
+        INNER JOIN genero as g on p.fk_genre_id = g.id_genre 
         where p.id_movie = ? LIMIT $number OFFSET $from");
         $query->execute([$id]);
         $result = $query->fetchAll(PDO::FETCH_OBJ);
         return $result;
     }
-
 
     public function addNew($name, $image, $length, $director, $fk_genre_id)
     {

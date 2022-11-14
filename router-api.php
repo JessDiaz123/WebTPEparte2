@@ -6,11 +6,13 @@ require_once 'app/api/MovieApiController.php';
 // crea el router
 $router = new Router();
 
+// Decidi dejar por defecto 
+$router->setDefaultRoute('MovieApiController',
+'badRequestURL');
+
 // define la tabla de ruteo
 $router->addRoute('peliculas', 'GET', 'MovieApiController',
  'getAll'); // todas las peliculas
-
-
 $router->addRoute('peliculas/:ID', 'GET', 'MovieApiController',
  'getOne'); //una pelicula en particular
 $router->addRoute('peliculas/:ID/resenias', 'GET', 'MovieApiController', 

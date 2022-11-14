@@ -38,5 +38,7 @@ Ordenes permitidos: asc, desc (ascendente y descendente)
 Paginacion 
 /api/peliculas/:ID/resenias?limit=4&page=1
 
-aclaracion: page y limit siempre deben ser mayor a 0.
+aclaracion: 
+    page y limit siempre deben ser mayor a 0.
+    el paginado por defecto retornara la pagina 1, 10 registros.
 
