@@ -32,13 +32,13 @@ class MovieModel
     }
 
 
-    function getReviewsForOneMovie($id)
+    function getReviewsForOneMovie($id, $from, $number)
     {
         $query = $this->db->prepare("
         SELECT r.review, r.user, r.id_review, p.movieName, p.director, g.genreName FROM resenias as r
         INNER join peliculas as p on r.fk_movie_id = p.id_movie
         inner join genero as g on p.fk_genre_id = g.id_genre 
-        where p.id_movie = ? ");
+        where p.id_movie = ? LIMIT $number OFFSET $from");
         $query->execute([$id]);
         $result = $query->fetchAll(PDO::FETCH_OBJ);
         return $result;

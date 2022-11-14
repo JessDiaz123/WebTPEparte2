@@ -9,6 +9,7 @@ Sobre la aplicacion:
 Esta API sigue el estandar RESTful.
 Permite obtener las peliculas de nuestro sitio, asi como ver,crear,modificar y borrar a las reseñas de dichas peliculas. 
 Tambien se brinda el servicio de listar las peliculas del sitio de forma ascendente o descendente segun un campo en particular
+y puede paginarse. 
 
 
 ENDPOINTS 
@@ -34,15 +35,8 @@ Ordenamiento:
 Columnas permitidas: movieName, director, movieLength, genre.
 Ordenes permitidos: asc, desc (ascendente y descendente)
 
+Paginacion 
+/api/peliculas/:ID/resenias?limit=4&page=1
 
+aclaracion: page y limit siempre deben ser mayor a 0.
 
-
-
-
-
-
-
-
-
-
-| DELETE | /api/causes/:causeId | To delete a single cause |
