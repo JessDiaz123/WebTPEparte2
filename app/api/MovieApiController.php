@@ -29,19 +29,19 @@ class MovieApiController
     function getAll()
     {
         if (isset($_GET['sort']) && isset($_GET['order'])) {
-            $this->getAllSorted($_GET['sort'], $_GET['order']);
+            $this->getAllMoviesSorted($_GET['sort'], $_GET['order']);
         } else {
             $movies = $this->model->showAll();
             $this->view->response($movies, 200);
         }
     }
     //funcion complementaria, obtiene las peliculas ordenadas
-    function getAllSorted($column, $asc)
+    function getAllMoviesSorted($column, $asc)
     {
         $columns = ["movieName", "movieLength", "director", "genre"];
         $order = ["asc", "desc"];
         if (in_array($column, $columns) && in_array($asc, $order)) {
-            $movies = $this->model->getAllSorted($column, $asc);
+            $movies = $this->model->getAllMoviesSorted($column, $asc);
             $this->view->response($movies, 200);
         } else {
             $this->view->response("bad request", 400);
@@ -77,19 +77,17 @@ class MovieApiController
     //get all de reviews
     function getReviewsForOneMovie($params = null)
     {
-        $filter = $this->verifyFilter();
-        // $order = verifyOrderReviews();
-        if ($this->verifyMovie($params)) {
-            $pagination = $this->verifyPagination($params);
+        if ($this->verifyMovie($params)) { // verifico que exista la pelicula
+            $pagination = $this->verifyPagination($params); // verifico que la paginacion tenga parametros correctos
             if ($pagination) { // paginacion siempre va a tener porque yo se lo seteo por defecto, pero esto es por //para controlar el null (por si ingresaron mal el parametro).                
-                $page = $pagination->page;
-                $limit = $pagination->limit;
-                $from = ($page - 1) * $limit;
-
                 $id =  $params[':ID'];
-                $reviews = $this->model->getReviewsForOneMovie($id, $from, $limit);
-                $aux = [];
+                //==============Orden==============    
+                $reviews = $this->verifySorted($id);
+
+                //==============Filtro==============
+                $filter = $this->verifyFilter();
                 if ($filter) { // si tiene filtro permitido
+                    $aux = [];
                     foreach ($reviews as $review) {
                         if ($review->user == $filter) {
                             array_push($aux, $review);
@@ -97,8 +95,12 @@ class MovieApiController
                     }
                     $reviews = $aux;
                 }
-                
-                // if (isset($_GET['sort']) && isset($_GET['order'])
+                //====================================Paginacion====================================
+
+                $page = $pagination->page;
+                $limit = $pagination->limit;
+                $from = ($page - 1) * $limit;
+                $reviews = array_slice($reviews, $from, $limit);
 
                 if ($reviews) {
                     $this->view->response($reviews);
@@ -118,7 +120,19 @@ class MovieApiController
         }
     }
 
-
+    //funcion complementaria, obtiene las resenias ordenadas
+    function getAllReviewsSorted($id, $column, $asc)
+    {
+        $columns = ["user", "id_review"];
+        $order = ["asc", "desc"];
+        if (in_array($column, $columns) && in_array($asc, $order)) {
+            $movies = $this->model->getAllReviewsSorted($id, $column, $asc);
+            return $movies;
+        } else {
+            $this->view->response("bad request, params in order are wrong", 400);
+            die();
+        }
+    }
 
     function addReview($params = null)
     {
@@ -183,8 +197,8 @@ class MovieApiController
     {
         if (isset($_GET['limit']) && isset($_GET['page'])) {
             if (
-                is_numeric($_GET['limit']) && is_numeric($_GET['page'])
-                && $_GET['limit'] > 0 && $_GET['page'] > 0
+                is_numeric($_GET['limit']) && is_numeric($_GET['page']) && $_GET['limit'] > 0
+                && $_GET['page'] > 0
             ) {
                 $limit = $_GET['limit'];
                 $page = $_GET['page'];
@@ -223,5 +237,14 @@ class MovieApiController
         } else {
             return false;
         }
+    }
+    function verifySorted($id)
+    {
+        if (isset($_GET['sort']) && isset($_GET['order'])) {
+            $reviews = $this->getAllReviewsSorted($id, $_GET['sort'], $_GET['order']);
+        } else {
+            $reviews = $this->model->getReviewsForOneMovie($id);;
+        }
+        return $reviews;
     }
 }

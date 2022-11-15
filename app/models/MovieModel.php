@@ -32,13 +32,14 @@ class MovieModel
     }
 
 
-    function getReviewsForOneMovie($id, $from, $number)
+    function getReviewsForOneMovie($id)
     {
         $query = $this->db->prepare("
         SELECT r.review, r.user, r.id_review, p.movieName, p.director, g.genreName FROM resenias as r
         INNER JOIN peliculas as p on r.fk_movie_id = p.id_movie
         INNER JOIN genero as g on p.fk_genre_id = g.id_genre 
-        where p.id_movie = ? LIMIT $number OFFSET $from");
+        where p.id_movie = ? ");
+        //LIMIT $number OFFSET $from
         $query->execute([$id]);
         $result = $query->fetchAll(PDO::FETCH_OBJ);
         return $result;
@@ -110,7 +111,7 @@ class MovieModel
     }
 
 
-    function getAllSorted($column, $order){
+    function getAllMoviesSorted($column, $order){
         $query = $this->db->prepare("SELECT a.id_movie, a.movieName, a.movieImage,a.movieLength,a.director ,
         b.genreName AS genre
         FROM peliculas a INNER JOIN genero b ON a.fk_genre_id = id_genre ORDER BY $column $order");
@@ -118,4 +119,14 @@ class MovieModel
         $results = $query->fetchAll(PDO::FETCH_OBJ);
         return $results;
     }
+
+    function getAllReviewsSorted($id,$column,$order){
+        $query = $this->db->prepare("
+        SELECT r.review, r.user, r.id_review, p.movieName, p.director, g.genreName FROM resenias as r
+        INNER JOIN peliculas as p on r.fk_movie_id = p.id_movie
+        INNER JOIN genero as g on p.fk_genre_id = g.id_genre 
+        where p.id_movie = ? ORDER BY $column $order ");
+        $query->execute([$id]);
+        $result = $query->fetchAll(PDO::FETCH_OBJ);
+        return $result;    }
 }
