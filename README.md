@@ -5,7 +5,7 @@ Importar la base de datos
 importar desde PHPMyAdmin (o cualquiera) database/db_movies.php
 
 Sobre la aplicacion:
-Esta API sigue el estandar RESTful.
+Esta API sigue el estandar RESTfull.
 Permite obtener las peliculas de nuestro sitio, asi como ver,crear,modificar y borrar a las reseñas de dichas peliculas.
 Tambien se brinda el servicio de listar las peliculas del sitio y sus reseñas de forma ascendente o descendente segun un campo en particular, permite paginar, y filtrar por campos determinados.
 

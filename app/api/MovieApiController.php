@@ -2,18 +2,21 @@
 
 require_once 'app/models/MovieModel.php';
 require_once 'app/api/ApiView.php';
+require_once 'app/helpers/authApi.Helper.php'; 
 
 class MovieApiController
 {
     private $model;
     private $view;
     private $data;
+    private $authHelper;
 
     function __construct()
     {
         $this->model = new MovieModel;
         $this->view = new ApiView;
         $this->data = file_get_contents("php://input"); //
+        $this->authHelper = new AuthApiHelper();
     }
 
     //Transformo el texto RAW en json
@@ -147,7 +150,8 @@ class MovieApiController
             else
                 $this->view->response("Review was not created", 500);
         }
-    }
+    } 
+
     function modifyReview($params = null)
     {
         $review = $this->verifyReview($params);
@@ -164,6 +168,10 @@ class MovieApiController
 
     function removeReview($params = null)
     {
+        if(!$this->authHelper->isLoggedIn()){
+            $this->view->response("No estas logueado", 401);
+            return;
+        } 
         $review = $this->verifyReview($params);
         if ($review) {
             $result = $this->model->deleteReview($review->id_review);

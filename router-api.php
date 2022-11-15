@@ -2,6 +2,7 @@
 <?php
 require_once 'libs/Router.php';
 require_once 'app/api/MovieApiController.php';
+require_once 'app/api/ApiAuthController.php';
 
 // crea el router
 $router = new Router();
@@ -25,6 +26,7 @@ $router->addRoute('peliculas/:ID/resenias/:IDRESEÑA', 'PUT', 'MovieApiControlle
 'modifyReview'); // Modificar una reseña
 $router->addRoute('peliculas/:ID/resenias/:IDRESEÑA', 'DELETE', 'MovieApiController',
  'removeReview'); // borrar una reseña
+$router->addRoute('auth/token','GET','ApiAuthController','getToken');
 
 $resource = $_GET["resource"];
 
