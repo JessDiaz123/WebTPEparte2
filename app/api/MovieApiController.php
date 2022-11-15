@@ -193,7 +193,6 @@ class MovieApiController
 
     function verifyFilter($params = null)
     {
-        $enabledFiltes = ["user"];
         if (isset($_GET["user"])) {
             return $_GET["user"];
         } else {

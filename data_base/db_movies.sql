@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 14-11-2022 a las 22:20:54
+-- Tiempo de generación: 15-11-2022 a las 23:00:17
 -- Versión del servidor: 10.4.24-MariaDB
 -- Versión de PHP: 8.1.6
 
@@ -90,26 +90,27 @@ CREATE TABLE `resenias` (
 --
 
 INSERT INTO `resenias` (`id_review`, `review`, `user`, `fk_movie_id`) VALUES
-(13, '2222222222', '', 37),
-(14, 'aaaa', '', 37),
-(16, 'bbbbbbb', '', 37),
-(17, 'bbbbbbb', '', 37),
-(18, 'probando probando', '', 37),
-(20, 'probanding probanding', '', 37),
-(21, 'probanding probanding', '', 37),
-(22, 'probanding probanding', '', 37),
-(23, 'probanding probanding', 'Nicola Tesla', 37),
-(24, 'probanding probanding', 'Nicola Tesla', 37),
-(25, 'probanding probanding', 'Nicola Tesla', 37),
-(26, 'probanding probanding', 'Nicola Tesla', 37),
-(27, 'probanding probanding', 'Nicola Tesla', 37),
+(23, 'Probando Probando', 'Nicola Tesla', 37),
+(24, 'Probando Probando', 'Nicola Tesla', 37),
+(26, 'Probando Probando', 'Nicola Tesla', 37),
+(27, 'Modificando review', 'Nicola Tesla', 37),
 (28, '1', 'Nicola Tesla', 37),
-(29, '2', 'Nicola Tesla', 37),
+(29, 'Review modificada otra vez', 'Nicola Tesla', 37),
 (30, '3', 'Nicola Tesla', 37),
 (31, '4', 'Nicola Tesla', 37),
 (32, '5', 'Nicola Tesla', 37),
 (33, '5', 'Nicola Tesla', 37),
-(34, '5', 'Jess', 37);
+(34, '5', 'Jess', 37),
+(35, 'Before You Go', 'Lewis Capaldi', 37),
+(36, 'Hola', 'Pepe', 36),
+(37, 'Hola2', 'Pepe', 36),
+(38, 'Hola3', 'Pepe', 36),
+(39, 'Hola4', 'Pepe', 36),
+(40, 'Juan escribio esto', 'Juan', 36),
+(41, 'Juan escribio esto', ' ', 36),
+(42, 'Juan escribio esto', ' ', 36),
+(43, ' ', ' ', 36),
+(44, 'Nueva review', 'Jess', 36);
 
 -- --------------------------------------------------------
 
@@ -182,7 +183,7 @@ ALTER TABLE `peliculas`
 -- AUTO_INCREMENT de la tabla `resenias`
 --
 ALTER TABLE `resenias`
-  MODIFY `id_review` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `id_review` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
