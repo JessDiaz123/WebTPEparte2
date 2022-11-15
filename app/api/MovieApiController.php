@@ -139,8 +139,8 @@ class MovieApiController
         $movie = $this->verifyMovie($params);
         if ($movie) {
             $data = $this->getData(); // transformo el text a json 
-            $review = $data->review;
-            $user = $data->user;
+            $review = $this->verifyParamsData($data,"review");
+            $user  = $this->verifyParamsData($data, "user");
             $id = $this->model->addReview($movie->id_movie, $review, $user);
             if ($id)
                 $this->view->response("the review was created successfully", 201);
@@ -153,7 +153,7 @@ class MovieApiController
         $review = $this->verifyReview($params);
         if ($review) {
             $data = $this->getData();
-            $newText = $data->review;
+            $newText = $this->verifyParamsData($data,"review");
             $reviewModified = $this->model->modifyReview($review->id_review, $newText);
             if ($reviewModified)
                 $this->view->response("The review was modified successfully", 200);
@@ -246,5 +246,16 @@ class MovieApiController
             $reviews = $this->model->getReviewsForOneMovie($id);;
         }
         return $reviews;
+    }
+    function verifyParamsData($data,$loQueBusco){
+        if(isset($data->$loQueBusco)){
+            return $data->$loQueBusco;
+        }
+        else{
+            // return " ";
+            //Aca podria tambien tirar una funcion responso con un bad request y un die(). 
+            $this->view->response("bad request, ingrese todos los datos especificados en la documentacion", 400);
+            die();
+        }
     }
 }

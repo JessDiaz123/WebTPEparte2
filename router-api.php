@@ -33,5 +33,4 @@ $method = $_SERVER['REQUEST_METHOD'];
 // rutea
 $router->route($resource,$method);
 
-// peliculas?sort=columnaQueQuiera&order=ASC
 
