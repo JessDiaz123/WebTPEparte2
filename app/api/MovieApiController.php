@@ -185,7 +185,7 @@ class MovieApiController
     function badRequestURL()
     {
         $this->view->response("bad request, enter a valid URL ", 400);
-    }
+    } 
 
     /*========================================================================
     ============================= Auxiliares ================================

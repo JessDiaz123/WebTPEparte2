@@ -7,9 +7,6 @@ require_once 'app/api/ApiAuthController.php';
 // crea el router
 $router = new Router();
 
-// Decidi dejar por defecto 
-$router->setDefaultRoute('MovieApiController',
-'badRequestURL');
 
 // define la tabla de ruteo
 $router->addRoute('peliculas', 'GET', 'MovieApiController',
@@ -27,6 +24,11 @@ $router->addRoute('peliculas/:ID/resenias/:IDRESEÑA', 'PUT', 'MovieApiControlle
 $router->addRoute('peliculas/:ID/resenias/:IDRESEÑA', 'DELETE', 'MovieApiController',
  'removeReview'); // borrar una reseña
 $router->addRoute('auth/token','GET','ApiAuthController','getToken');
+
+// Decidi dejar por defecto 
+$router->setDefaultRoute('MovieApiController',
+'badRequestURL');
+
 
 $resource = $_GET["resource"];
 

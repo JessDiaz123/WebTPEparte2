@@ -21,12 +21,14 @@ El endpoint de la API es: http://localhost/Web2/Web2TPEParte2/api/peliculas
 | GET | /api/peliculas/:ID | obtiene el detalle de una pelicula en particular|
 | GET | /api/peliculas/:ID/resenias | obtiene todas las reseñas de una pelicula en particular|
 | GET | /api/peliculas/:ID/resenias/:IDRESEÑA | obtiene el detalle de una RESEÑA en particular|
+| GET | /api/auth/token | Logueandose, obtiene permiso para eliminar reseñas|
 
 | PUT | /api/peliculas/:ID/resenias/:IDRESEÑA| Permite modificar una reseña de la pelicula seleccionada | *vease apratado REQUERIMIENTOS PUT*
 
 | POST | /api/peliculas/:ID/resenias | Permite crear una nueva reseña de la pelicula seleccionada | *vease apratado REQUERIMIENTOS POST*
 
-| DELETE | /api/peliculas/:ID/resenias/:IDRESEÑA | Permite eliminar una reseña de la pelicula seleccionada |
+| DELETE | /api/peliculas/:ID/resenias/:IDRESEÑA | Permite eliminar una reseña de la pelicula seleccionada (Necesita verificacion de Token)|
+
 
 
 
@@ -84,5 +86,10 @@ se deben enviar obligatoriamente 2 parametros dentro de un JSON:
     "review" : "Lo que el usuario quiera escribir"
 }
 
+#### VERIFICACION TOKEN
+
+| GET | /api/auth/token |
+Utilizando este endpoint, y enviando un usuario y contraseña valido, usted podra 
+adquirir un token por tiempo limitado que le permitira borrar reseñas. 
 
 Contacto: jesusdiaz013@gmail.com
